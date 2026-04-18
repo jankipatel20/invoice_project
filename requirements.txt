@@ -1,0 +1,26 @@
+# ── Core ──────────────────────────────────────────────
+opencv-python-headless>=4.8.0
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# ── OCR ───────────────────────────────────────────────
+easyocr>=1.7.0
+
+# ── ML / Translation / Summarisation ─────────────────
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.36.0
+sentencepiece>=0.1.99          # Required by Helsinki-NLP Marian tokenizers
+sacremoses>=0.0.53             # Required by some Marian models
+
+# ── Web app ───────────────────────────────────────────
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# ── Training utilities ────────────────────────────────
+scikit-learn>=1.3.0
+matplotlib>=3.7.0
+
+# ── Optional: faster inference ────────────────────────
+# accelerate>=0.24.0           # Uncomment for faster HuggingFace inference
+# onnxruntime>=1.16.0          # Uncomment to export models to ONNX

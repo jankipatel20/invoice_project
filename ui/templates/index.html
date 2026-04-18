@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InvoiceAI – Multilingual Invoice Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <span class="logo-icon">⬡</span>
+    <span class="logo-text">Invoice<strong>AI</strong></span>
+  </div>
+  <nav class="header-links">
+    <span class="badge">EasyOCR + Helsinki NLP</span>
+  </nav>
+</header>
+
+<main class="main">
+
+  <!-- ── Upload Panel ── -->
+  <section class="panel upload-panel" id="uploadPanel">
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-inner">
+        <div class="drop-icon">🧾</div>
+        <p class="drop-title">Drop invoice image here</p>
+        <p class="drop-sub">or click to browse</p>
+        <p class="drop-formats">JPG · PNG · BMP · TIFF — max 20 MB</p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" hidden />
+    </div>
+
+    <div class="lang-row">
+      <div class="lang-group">
+        <label>Bill language</label>
+        <select id="srcLang">
+          <option value="french">French 🇫🇷</option>
+          <option value="arabic">Arabic 🇸🇦</option>
+          <option value="german">German 🇩🇪</option>
+          <option value="japanese">Japanese 🇯🇵</option>
+          <option value="mandarin">Mandarin 🇨🇳</option>
+          <option value="spanish">Spanish 🇪🇸</option>
+          <option value="english">English 🇬🇧</option>
+        </select>
+      </div>
+      <div class="arrow-icon">→</div>
+      <div class="lang-group">
+        <label>Translate to</label>
+        <select id="tgtLang">
+          <option value="english" selected>English 🇬🇧</option>
+          <option value="french">French 🇫🇷</option>
+          <option value="arabic">Arabic 🇸🇦</option>
+          <option value="german">German 🇩🇪</option>
+          <option value="japanese">Japanese 🇯🇵</option>
+          <option value="mandarin">Mandarin 🇨🇳</option>
+          <option value="spanish">Spanish 🇪🇸</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-process" id="processBtn" disabled>
+      <span class="btn-label">Analyse Invoice</span>
+      <span class="btn-icon">⚡</span>
+    </button>
+  </section>
+
+  <!-- ── Preview strip ── -->
+  <section class="preview-strip" id="previewStrip" style="display:none">
+    <img id="previewImg" src="" alt="Preview" />
+    <button class="btn-clear" id="clearBtn">✕ Clear</button>
+  </section>
+
+  <!-- ── Spinner ── -->
+  <div class="spinner-wrap" id="spinner" style="display:none">
+    <div class="spinner"></div>
+    <p id="spinnerMsg">Preprocessing image…</p>
+  </div>
+
+  <!-- ── Rejected banner ── -->
+  <div class="rejected-banner" id="rejectedBanner" style="display:none">
+    <span class="rej-icon">⚠</span>
+    <div>
+      <strong>Not an invoice</strong>
+      <p id="rejectedReason"></p>
+    </div>
+  </div>
+
+  <!-- ── Results ── -->
+  <section class="results" id="results" style="display:none">
+
+    <div class="meta-row">
+      <span class="meta-chip" id="metaLines"></span>
+      <span class="meta-chip" id="metaWords"></span>
+      <span class="meta-chip" id="metaTime"></span>
+      <span class="meta-chip confidence" id="metaConf"></span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="extracted">📄 Extracted</button>
+      <button class="tab" data-tab="translated">🌐 Translated</button>
+      <button class="tab" data-tab="summary">✨ Summary</button>
+    </div>
+
+    <div class="tab-content active" id="tab-extracted">
+      <pre id="extractedText" class="text-block"></pre>
+    </div>
+    <div class="tab-content" id="tab-translated">
+      <pre id="translatedText" class="text-block"></pre>
+    </div>
+    <div class="tab-content" id="tab-summary">
+      <div id="summaryText" class="summary-block"></div>
+    </div>
+
+    <div class="export-row">
+      <button class="btn-export" id="copyBtn">⎘ Copy</button>
+      <button class="btn-export" id="downloadBtn">⬇ Download .txt</button>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
