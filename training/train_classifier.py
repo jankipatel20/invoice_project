@@ -101,12 +101,26 @@ class InvoiceDataset(Dataset):
 
 # ─── Model ───────────────────────────────────────────────────────────────────
 def build_model(pretrained: bool = True) -> nn.Module:
-    weights = models.MobileNet_V3_Small_Weights.DEFAULT if pretrained else None
-    model   = models.mobilenet_v3_small(weights=weights)
+    # Load weights from local cache only — avoids SSL download issues on Windows
+    model = models.mobilenet_v3_small(weights=None)
+    if pretrained:
+        import os
+        cache_path = os.path.join(
+            os.path.expanduser("~"), ".cache", "torch", "hub",
+            "checkpoints", "mobilenet_v3_small-047dcff4.pth"
+        )
+        if os.path.exists(cache_path):
+            state = torch.load(cache_path, map_location="cpu")
+            # Strip classifier head (shape mismatch is expected)
+            state = {k: v for k, v in state.items()
+                     if not k.startswith("classifier.3")}
+            model.load_state_dict(state, strict=False)
+            print("[Model] Loaded pretrained weights from local cache.")
+        else:
+            print(f"[Model] WARNING: weights not found at {cache_path}")
+            print("[Model] Training from scratch (accuracy will be lower).")
     model.classifier[3] = nn.Linear(model.classifier[3].in_features, 2)
     return model
-
-
 # ─── Training loop ────────────────────────────────────────────────────────────
 def train(args):
     data_root = Path(args.data_root)

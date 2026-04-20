@@ -10,7 +10,7 @@ easyocr>=1.7.0
 torch>=2.0.0
 torchvision>=0.15.0
 transformers>=4.36.0
-sentencepiece>=0.1.99          # Required by Helsinki-NLP Marian tokenizers
+sentencepiece>=0.1.99          # Required by T5 and Helsinki-NLP Marian tokenizers
 sacremoses>=0.0.53             # Required by some Marian models
 
 # ── Web app ───────────────────────────────────────────
